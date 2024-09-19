@@ -4,7 +4,19 @@ from .forms import ProductoForm, ClienteForm, VentaForm, CategoriaForm, Proveedo
 
 #INICIO
 def inicio(request):
-    return render(request, 'inicio.html')
+    total_productos = Producto.objects.count()
+    total_clientes = Cliente.objects.count()
+    total_ventas = Venta.objects.count()
+    ventas_recientes = Venta.objects.order_by('-fecha_venta')[:5]  # Mostrar últimas 5 ventas
+
+    context = {
+        'total_productos': total_productos,
+        'total_clientes': total_clientes,
+        'total_ventas': total_ventas,
+        'ventas_recientes': ventas_recientes,
+    }
+
+    return render(request, 'ventas/inicio.html', context)
 
 #PRODUCTOS
 def listar_productos(request):
@@ -31,14 +43,14 @@ def agregar_producto(request):
         producto_form = ProductoForm()
         detalle_form = DetalleProductoForm()
 
-    return render(request, 'inventario/agregar_producto.html', {
+    return render(request, 'ventas/agregar_producto.html', {
          'producto_form': producto_form,
          'detalle_form': detalle_form
      })
       
 def detalle_producto(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
-    return render(request, 'inventario/detalle_producto.html', {'producto': producto})
+    return render(request, 'ventas/detalle_producto.html', {'producto': producto})
 
 
 def editar_producto(request, pk):
@@ -70,7 +82,7 @@ def eliminar_producto(request, pk):
 #CATEGORIA
 def listar_categorias(request):
     categorias = Categoria.objects.all()
-    return render(request, 'inventario/listar_categorias.html', {'categorias': categorias})
+    return render(request, 'ventas/listar_categorias.html', {'categorias': categorias})
 
 def agregar_categoria(request):
     if request.method == 'POST':
@@ -80,7 +92,7 @@ def agregar_categoria(request):
             return redirect('listar_categorias')
     else:
         form = CategoriaForm()
-    return render(request, 'inventario/agregar_categoria.html', {'form': form})
+    return render(request, 'ventas/agregar_categoria.html', {'form': form})
 
 def editar_categoria(request, pk):
     categoria = get_object_or_404(Categoria, pk=pk)
@@ -91,14 +103,14 @@ def editar_categoria(request, pk):
             return redirect('listar_categorias')
     else:
         form = CategoriaForm(instance=categoria)
-    return render(request, 'inventario/editar_categoria.html', {'form': form})
+    return render(request, 'ventas/editar_categoria.html', {'form': form})
 
 def eliminar_categoria(request, pk):
     categoria = get_object_or_404(Categoria, pk=pk)
     if request.method == 'POST':
         categoria.delete()
         return redirect('listar_categorias')
-    return render(request, 'inventario/eliminar_categoria.html', {'categoria': categoria})
+    return render(request, 'ventas/eliminar_categoria.html', {'categoria': categoria})
 
 #PROVEEDORES
 def listar_proveedores(request):
@@ -194,7 +206,7 @@ def registrar_venta(request):
     else:
         form = VentaForm()
 
-    return render(request, 'inventario/registrar_venta.html', {'form': form})
+    return render(request, 'ventas/registrar_venta.html', {'form': form})
 
 def editar_venta(request, pk):
     venta = get_object_or_404(Venta, pk=pk)

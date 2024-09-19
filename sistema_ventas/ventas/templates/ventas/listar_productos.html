@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Productos</title>
+</head>
+<body>
+    <h1>Productos</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Categoria</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+            <tr>
+                <td>{{ producto.nombre }}</td>
+                <td>{{ producto.categoria.nombre }}</td> 
+                <td>{{ producto.cantidad }}</td>               
+                <td>{{ producto.precio }}</td>
+                <td>
+                    <a href="{% url 'detalle_producto' producto.pk %}">Ver Detalles de Producto</a> |
+                    <a href="{% url 'editar_producto' producto.id %}">Editar</a> | 
+                    <a href="{% url 'eliminar_producto' producto.id %}">Eliminar</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+        <br>
+    <a href="{% url 'agregar_producto' %}">Agregar un Nuevo Producto</a>
+    <br>
+    <a href="{% url 'inicio' %}">Volver al inicio</a>
+</body>
+</html>

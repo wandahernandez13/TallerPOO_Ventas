@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Inicio</title>
+</head>
+<body>
+    <h1>Bienvenido al Sistema de Ventas de Productos Tecnológicos</h1>
+   
+    <div class="resumen">
+        <h2>Resumen del Sistema</h2>
+        <p><strong>Total de Productos:</strong> {{ total_productos }}</p>
+        <p><strong>Total de Clientes:</strong> {{ total_clientes }}</p>
+        <p><strong>Total de Ventas:</strong> {{ total_ventas }}</p>
+    </div>
+
+
+    <div class="ventas-recientes">
+        <h2>Ventas Recientes</h2>
+        <ul>
+            {% for venta in ventas_recientes %}
+            <li>
+                Producto: {{ venta.producto.nombre }} | Cliente: {{ venta.cliente.nombre }} | Fecha: {{ venta.fecha_venta }}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="enlaces-rapidos">
+        <h2>Opciones Disponibles</h2>
+        <ul>
+            <li><a href="{% url 'listar_productos' %}">Gestionar Productos</a></li>
+            <li><a href="{% url 'listar_categorias' %}">Gestionar Categorías</a></li>
+            <li><a href="{% url 'listar_proveedores' %}">Gestionar Proveedores</a></li>
+            <li><a href="{% url 'listar_clientes' %}">Gestionar Clientes</a></li>
+            <li><a href="{% url 'listar_ventas' %}">Ver Ventas Registradas</a></li>
+            <li><a href="{% url 'registrar_venta' %}">Registrar una Venta</a></li>
+        </ul>
+    </div>
+</body>
+</html>
